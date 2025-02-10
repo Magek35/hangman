@@ -8,17 +8,17 @@ class Hangman:
         master.title("Hangman Game")
 
         # Интерфейс игры
-        self.frame = tk.Frame(master, padx=20, pady=20)
+        self.frame = tk.Frame(master, padx=10, pady=10)
         self.frame.pack()
         self.canvas = tk.Canvas(self.frame, width=400, height=400, bg="white")
         self.canvas.grid(row=0, column=0, columnspan=2)
         self.button_new_game = tk.Button(self.frame, text="Новая игра", command=self.new_game, bg='lightblue')
         self.button_new_game.grid(row=1, column=0, pady=10)
-        self.message_label = tk.Label(self.frame, text="", font=("Arial", 24))
+        self.message_label = tk.Label(self.frame, text="", font=("Arial", 20))
         self.message_label.grid(row=2, column=0, pady=10)
         self.word_description_label = tk.Label(self.frame, text="", font=("Arial", 16))
         self.word_description_label.grid(row=3, column=0, pady=10)
-        with open('words.json', 'r', encoding='utf-8') as file:
+        with open('words.json.py', 'r', encoding='utf-8') as file:
             data = json.load(file)
             self.words = data['words']
         self.word = ""
@@ -30,7 +30,7 @@ class Hangman:
 
     def new_game(self):
         # Обновление переменных
-        self.message_label.config(text="") 
+        self.message_label.config(text="")
         word_data = random.choice(self.words)
         self.word = word_data['word']
         description = word_data['description']
@@ -58,7 +58,7 @@ class Hangman:
         self.canvas.itemconfig("guessed_letters", text=f"Попытки: {guessed_letters_str}")
 
         if letter not in self.word:
-            self.remaining_guesses -= 1 
+            self.remaining_guesses -= 1
             #Рисование повешенного
             if self.remaining_guesses == 5:
                 self.canvas.create_oval(180, 100, 220, 140)
@@ -89,6 +89,7 @@ class Hangman:
 
 # Окно игры, обработка нажатий клавиш
 root = tk.Tk()
+root.geometry('750x650')
 hangman = Hangman(root)
 root.bind("<Key>", hangman.key_pressed)
 root.mainloop()
